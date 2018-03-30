@@ -29,6 +29,12 @@ class pointing():
         self.payload_lon= float(long)
         self.payload_alt = float(alt)
 
+    #method to make all calculations
+    def calculatePointing(self):
+        distanceMetersCalc()
+        azimuthDegreesCalc()
+        elevationDegreesCalc()
+
     #calculates distance over a sphere, between two points
     def distanceMetersCalc(self):
         # haversine formula, see: http://www.movable-type.co.uk/scripts/latlong.html

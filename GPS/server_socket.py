@@ -38,7 +38,7 @@ while True:
 		packet = gpsd.get_current()
 
 		#add gps data to message
-		message = "Latitude: " + str(packet.lat) + "\nLongetude: " + str(packet.lon) + "\nAltitude: " + str(packet.alt)
+		message = str(packet.lat) + "\n" + str(packet.lon) + "\n" + str(packet.alt)
 		#message = str(packet)
 
 		#message length
@@ -81,7 +81,7 @@ while True:
 
 		#print message success
 		#print("Message was sent successfully")
-		
+
 		#close connection
 		client.close()
 	except:
@@ -91,4 +91,3 @@ while True:
 		traceback.print_exc()
 
 		#continue
-
