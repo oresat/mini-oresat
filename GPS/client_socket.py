@@ -2,6 +2,7 @@ import socket
 from threading import Thread
 import time
 
+#Class to recieve text from the server_socket.py program
 class Client_Socket(Thread):
 
     def __init__(self):
@@ -10,6 +11,10 @@ class Client_Socket(Thread):
         self.MSGLEN = 4
         #gps data holder
         self.gps_data = ''
+        #latitude, longetude, altitude variables
+        self.lat = 0.0
+        self.lon = 0.0
+        self.alt = 0.0
         #connected flag
         self.connected = False
         #socket variable
@@ -73,6 +78,16 @@ class Client_Socket(Thread):
         self.connected = False
         #return message
         return b''.join(chunks).decode()
+
+    #method for parsing the gps data that was recieved
+    def parseGPS(self):
+        #seperate the gps data into lines
+        lines = str.splitlines(self.gps_data)
+        #assign lines to their respective variables
+        self.lat = lines[0]
+        self.lon = lines[1]
+        self.alt = lines[2]
+
 
     def run(self):
         #time holder
