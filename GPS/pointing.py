@@ -31,9 +31,9 @@ class pointing():
 
     #method to make all calculations
     def calculatePointing(self):
-        distanceMetersCalc()
-        azimuthDegreesCalc()
-        elevationDegreesCalc()
+        self.distanceMetersCalc()
+        self.azimuthDegreesCalc()
+        self.elevationDegreesCalc()
 
     #calculates distance over a sphere, between two points
     def distanceMetersCalc(self):
