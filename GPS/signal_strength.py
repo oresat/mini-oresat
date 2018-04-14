@@ -54,6 +54,32 @@ class Signal_Strength(Thread):
 
         #SSID 1 : Mini-OreSat
 
+    def linuxStrength(self):
+        #print("about to run iwlist scan")
+        #get string for connected wifi
+        results = subprocess.run(["iwlist", "scan"], stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout.decode()
+        #print("after running iwlist scan")
+
+        #split it into lines
+        lines = results.split("\n")
+
+        #find the section with wlan1
+        x = 0
+        while x < len(lines):
+            #find the wlan1 section
+            if lines[x][:5] == str("wlan1"):
+                #set the strength
+                self.strength = lines[(x+4)][48:51]
+
+            x = x + 1
+
+        #grab the line with the signal strength in it
+        #signal = lines[4]
+
+        #set the strength
+        #self.strength = signal
+        #print(results)
+
 
     def run(self):
         #detect operating system
@@ -70,9 +96,9 @@ class Signal_Strength(Thread):
                     if(self.os == "Windows"):
                         self.windowsStrength()
                     elif(self.os == "Linux"):
-                        pass
+                        self.linuxStrength()
                     else:
                         print("Operating system not supported")
 
                     #print signal strength
-                    print(self.strength)
+                    print(self.strength, "dBm")
