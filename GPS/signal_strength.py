@@ -38,15 +38,17 @@ class Signal_Strength(Thread):
                         #print("Found mini-oresat")
                         #grab the mini-oresat data
                         oresatLines = lines[x:(x+9)]
-                        #grab the signal strength
-                        self.strength = oresatLines[5][30:]
+                        #grab the signal strength in %
+                        percentStrength = oresatLines[5][30:-3]
+                        #convert strength to dBm and set value
+                        self.strength = str((float(percentStrength)/2) - 100) + " dBm"
                         break
                 x = x + 1
                 
-            print("Lines checked: ", x)
+            #print("Lines checked: ", x)
             #if mini-oresat couldn't be found then signal strength is 0
             if(x == len(lines)):
-                self.strength = "0%"
+                self.strength = "not connected"
 
         except:
             print("Error in windowsStrength")
@@ -69,7 +71,7 @@ class Signal_Strength(Thread):
             #find the wlan1 section
             if lines[x][:5] == str("wlan1"):
                 #set the strength
-                self.strength = lines[(x+4)][48:51]
+                self.strength = lines[(x+4)][48:55]
 
             x = x + 1
 
@@ -101,4 +103,4 @@ class Signal_Strength(Thread):
                         print("Operating system not supported")
 
                     #print signal strength
-                    print(self.strength, "dBm")
+                    print(self.strength)
