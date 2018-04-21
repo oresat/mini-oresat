@@ -1,4 +1,5 @@
 from client_socket import *
+from signal_strength import *
 from pointing import *
 import time
 
@@ -7,6 +8,12 @@ socketThread = Client_Socket()
 
 #start client thread
 socketThread.start()
+
+#create signal strength thread
+signalThread = Signal_Strength()
+
+#start signal strength thread
+signalThread.start()
 
 #create pointing object
 tracker = pointing()
@@ -21,8 +28,8 @@ while True:
     #calculate pointing values
     tracker.calculatePointing()
 
-    #print the pointing values
-    print("Azimuth: ", tracker.azimuth, "\nElevation: ", tracker.elevation)
+    #print the pointing values and signal strength
+    print("Azimuth: ", tracker.azimuth, "\nElevation: ", tracker.elevation, "\nSignal Strength: ", signalThread.strength)
 
     #wait 5 seconds
     time.sleep(5)

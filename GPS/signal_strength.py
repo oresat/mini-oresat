@@ -44,7 +44,7 @@ class Signal_Strength(Thread):
                         self.strength = str((float(percentStrength)/2) - 100) + " dBm"
                         break
                 x = x + 1
-                
+
             #print("Lines checked: ", x)
             #if mini-oresat couldn't be found then signal strength is 0
             if(x == len(lines)):
@@ -57,30 +57,25 @@ class Signal_Strength(Thread):
         #SSID 1 : Mini-OreSat
 
     def linuxStrength(self):
-        #print("about to run iwlist scan")
-        #get string for connected wifi
-        results = subprocess.run(["iwlist", "scan"], stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout.decode()
-        #print("after running iwlist scan")
+        try:
+            #get string for connected wifi
+            results = subprocess.run(["iwlist", "scan"], stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout.decode()
 
-        #split it into lines
-        lines = results.split("\n")
+            #split it into lines
+            lines = results.split("\n")
 
-        #find the section with wlan1
-        x = 0
-        while x < len(lines):
-            #find the wlan1 section
-            if lines[x][:5] == str("wlan1"):
-                #set the strength
-                self.strength = lines[(x+4)][48:55]
+            #find the section with wlan1
+            x = 0
+            while x < len(lines):
+                #find the wlan1 section
+                if lines[x][:5] == str("wlan1"):
+                    #set the strength
+                    self.strength = lines[(x+4)][48:55]
 
-            x = x + 1
-
-        #grab the line with the signal strength in it
-        #signal = lines[4]
-
-        #set the strength
-        #self.strength = signal
-        #print(results)
+                x = x + 1
+        except:
+            print("Error in linuxStrength")
+            traceback.print_exc()
 
 
     def run(self):
@@ -103,4 +98,4 @@ class Signal_Strength(Thread):
                         print("Operating system not supported")
 
                     #print signal strength
-                    print(self.strength)
+                    #print(self.strength)
